@@ -8,7 +8,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $orders = $result->fetch_all(MYSQLI_ASSOC);
 
-$stmt = $conn->prepare("SELECT uid, name from ingredients ORDER BY name;");
+$stmt = $conn->prepare("SELECT uid, name, price from ingredients ORDER BY name;");
 $stmt->execute();
 $result = $stmt->get_result();
 $ingr_res = $result->fetch_all(MYSQLI_ASSOC);
@@ -18,8 +18,10 @@ $conn->close();
 // Remap $ingredients.
 $ingredients = [];
 $ingredient_count = [];
+$priceList = [];
 foreach ($ingr_res as $trash => $ingr) {
     $ingredients[$ingr["uid"]] = $ingr["name"];
+    $priceList[$ingr["uid"]] = $ingr["price"];
     $ingredient_count[$ingr["name"]] = 0;
 }
 // Count how often an ingredient was orderd.
@@ -101,7 +103,7 @@ function searchTable() {
         $time = date('H:i', $order['time']);
         $price = $BASE_PRICE;
         foreach (explode(",", $order["ingredients"]) as &$iID) {
-            $price = $price + $ingredients[$iID]['price'];
+            $price = $price + $priceList[intval($iID)];
         }
         echo <<<EOD
 <div class='order'>
