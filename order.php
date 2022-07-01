@@ -43,6 +43,12 @@ function sendMail($recipient) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($TIMESTAMP_LAST_ORDER < time()) {
+        // too late
+        header("Location: /index.php?order=0");
+        exit();
+    } 
+
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $ingredients = "";

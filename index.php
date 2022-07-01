@@ -92,11 +92,14 @@ foreach ($occ_res as &$res) {
             else if ($_GET["order"] == "0"){
                 echo "<div class='icon error'>Error while placing your order! Please contact: {$CONTACT_EMAIL}</div><br>";
             }
+            if ($TIMESTAMP_LAST_ORDER < time()) {
+                echo "<div class='icon error'>Ordering deadline exceeded.</div><br>";
+            }
         }
         ?>
         <div class='icon error' style="display: none" id="max_ingr_warning">Maximum number of ingredients exceeded.</div>
         <div class='icon error' style="display: none" id="overlapping_order">Too many orders! Choose another time-slot.</div>
-            <input type="submit" value="Order Pizza" id="order_button">
+        <input type='submit' value='Order Pizza' id='order_button'>
         </form>
         <script>
             // Pricelist dictionary
