@@ -43,7 +43,19 @@ foreach ($occ_res as &$res) {
 
         The basic pizza consists of a yeast dough and tomato sauce. Any additional ingredient / topping will be charged extra.
         Please visit us at <?php echo $LOCATION;?>. Your pizza will be freshly prepared when you arrive. Please bring cash to pay.
-        <br><br>
+        <br><br><?php
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            if ($_GET["order"] == "1") {
+                echo "<div class='icon success'>Your order was placed!</div><br>";
+            }
+            else if ($_GET["order"] == "0"){
+                echo "<div class='icon error'>Error while placing your order! Please contact: {$CONTACT_EMAIL}</div>";
+            }
+            if ($TIMESTAMP_LAST_ORDER < time()) {
+                echo "<div class='icon error'>Ordering deadline exceeded.</div><br>";
+            }
+        }
+        ?>
         <form action="order.php" method="post">
             <input type="text" placeholder="Name" name="name" required><br>
             <input type="email" placeholder="E-Mail" name="email" required><br>
@@ -84,19 +96,6 @@ foreach ($occ_res as &$res) {
             <output for="pickup-time" id="time"></output><br>
             <output for="pickup-time"  id="wait"></output><br>
             <output id="price"></output><br>
-            <?php
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            if ($_GET["order"] == "1") {
-                echo "<div class='icon success'>Your order was placed!</div><br>";
-            }
-            else if ($_GET["order"] == "0"){
-                echo "<div class='icon error'>Error while placing your order! Please contact: {$CONTACT_EMAIL}</div><br>";
-            }
-            if ($TIMESTAMP_LAST_ORDER < time()) {
-                echo "<div class='icon error'>Ordering deadline exceeded.</div><br>";
-            }
-        }
-        ?>
         <div class='icon error' style="display: none" id="max_ingr_warning">Maximum number of ingredients exceeded.</div>
         <div class='icon error' style="display: none" id="overlapping_order">Too many orders! Choose another time-slot.</div>
         <input type='submit' value='Order Pizza' id='order_button'>
@@ -113,6 +112,7 @@ foreach ($occ_res as &$res) {
             max_ingr_count = <?php echo $MAX_NUMBER_INGREDIENTS;?>;
             block_overlapping_orders = <?php echo $BLOCK_OVERLAPPING_ORDERS ? "true" : "false";?>;
             slot_width = <?php echo $SLOT_WIDTH;?>; // in s
+            first_run = true;
 
             // Event listeners for all ingredients
             checkboxes = document.querySelectorAll("input[type=checkbox]");
@@ -184,13 +184,21 @@ foreach ($occ_res as &$res) {
                              ":" + String(date_time.getMinutes()).padStart(2, '0');
                 // Update values to html
                 document.getElementById("time").innerHTML = "Pick-up time: " + human_time;
-                document.getElementById("wait").innerHTML = "Estimated waiting time: "+
+                document.getElementById("wait").innerHTML = "Estimated waiting time: < "+
                     wait + " minutes";
+                
                 
                 // Dis-/Enables Order Button
                 if (block_overlapping_orders && slot_width/60 < wait) {
-                    // Show overlapping warning, disable button
-                    overlapping_order.style.display = "";
+                    // Show too many orders warning, disable button
+
+                    // Edge Case:  Don't show warning if order was successful 
+                    if (first_run && window.location.search != "") {
+                        overlapping_order.style.display = "none";
+                    } 
+                    else {
+                        overlapping_order.style.display = "";
+                    }
                     order_button.disabled = true;
                 }
                 else {
@@ -218,6 +226,8 @@ foreach ($occ_res as &$res) {
 
                 bubble.innerHTML = human_time;
                 bubble.style.left = position + "%";
+
+                first_run = false;
             }
             displayChoice();
         </script>
