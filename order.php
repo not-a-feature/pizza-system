@@ -33,11 +33,11 @@ function checkOccupancy($time) {
     
     return ($PIZZA_TIME + $occupancy*$ADDITIONAL_TIME) <= $SLOT_WIDTH/60;
 }
-function sendMail($recipient) {
+function sendMail($recipient, $time) {
     // Sends a confirmation mail.
     global $CONTACT_EMAIL;
     $subject = "Pizza Order";
-    $msg = "Your pizza order was placed.";
+    $msg = "Your pizza order was placed. Please pick it up at " . date('Y-m-d H-i', $time);
     $headers = "From:" . $CONTACT_EMAIL;
     mail($recipient,$subject,$msg,$headers);
 }
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $res = insertDB($name, $email, $ingredients, $time, $remark);
     if ($res) {
-        sendMail($email);
+        sendMail($email, $time);
         header("Location: /index.php?order=1");
         exit();
     }
