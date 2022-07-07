@@ -19,13 +19,14 @@ INSERT INTO `ingredients` (`uid`, `name`, `price`) VALUES
 (4, 'Mozzarella di Bufalla', 1.5),
 (5, 'Olives', 1),
 (6, 'Ham', 1),
-(7, 'Funghi', 1),
+(7, 'Funghi', 0.5),
 (8, 'Anchovy', 1.5),
-(9, 'Tuna', 1),
-(10, 'Ruccola', 0.5),
-(11, 'Corn', 0.5),
-(12, 'Pineapple', 1),
-(13, 'Vegan Cheese', 1.5);
+(9, 'Ruccola', 0.5),
+(10, 'Corn', 0.5),
+(11, 'Pineapple', 1),
+(12, 'Vegan Cheese', 1),
+(13, 'Regular Cheese', 0.5)
+(14, 'Salami', 1);
 
 -- --------------------------------------------------------
 
