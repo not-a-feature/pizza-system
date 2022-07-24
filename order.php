@@ -36,8 +36,8 @@ function checkOccupancy($time) {
 function sendMail($recipient, $time) {
     // Sends a confirmation mail.
     global $CONTACT_EMAIL;
-    $subject = "Pizza Order";
-    $msg = "Your pizza order was placed. Please pick it up at " . date('Y-m-d H-i', $time);
+    $subject = "Pizza Order " . date('Y-m-d H:i', $time);
+    $msg = "Your pizza order was placed. Please pick it up at " . date('Y-m-d H:i', $time);
     $headers = "From:" . $CONTACT_EMAIL;
     mail($recipient,$subject,$msg,$headers);
 }
