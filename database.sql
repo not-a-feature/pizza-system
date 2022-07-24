@@ -1,6 +1,7 @@
 --
--- Tabellenstruktur für Tabelle `ingredients`
+-- Structure of table `ingredients`
 --
+DROP TABLE IF EXISTS `ingredients`;
 
 CREATE TABLE `ingredients` (
   `uid` int(11) NOT NULL,
@@ -9,7 +10,7 @@ CREATE TABLE `ingredients` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Daten für Tabelle `ingredients`
+-- Data of table `ingredients`
 --
 
 INSERT INTO `ingredients` (`uid`, `name`, `price`) VALUES
@@ -24,15 +25,17 @@ INSERT INTO `ingredients` (`uid`, `name`, `price`) VALUES
 (9, 'Ruccola', 0.5),
 (10, 'Corn', 0.5),
 (11, 'Pineapple', 1),
-(12, 'Vegan Cheese', 1),
-(13, 'Regular Cheese', 0.5)
+(12, 'Vegan Mozzarella', 1),
+(13, 'Regular Cheese', 0.5),
 (14, 'Salami', 1);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `orders`
+-- Structure of table `orders`
 --
+
+DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE `orders` (
   `uid` int(11) NOT NULL,
@@ -45,29 +48,25 @@ CREATE TABLE `orders` (
 
 
 --
--- Indizes für die Tabelle `ingredients`
+-- Primary Key `ingredients`
 --
 ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`uid`);
 
 --
--- Indizes für die Tabelle `orders`
+-- Primary Key `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`uid`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
---
-
---
--- AUTO_INCREMENT für Tabelle `ingredients`
+-- AUTO_INCREMENT `ingredients`
 --
 ALTER TABLE `ingredients`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
--- AUTO_INCREMENT für Tabelle `orders`
+-- AUTO_INCREMENT `orders`
 --
 ALTER TABLE `orders`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
