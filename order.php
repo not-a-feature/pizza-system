@@ -45,7 +45,7 @@ function sendMail($recipient, $time) {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($TIMESTAMP_LAST_ORDER < time()) {
         // too late
-        header("Location: /index.php?order=0");
+        header("Location: index.php?order=0");
         exit();
     } 
 
@@ -64,18 +64,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $time = floor($time/$SLOT_WIDTH)*$SLOT_WIDTH;
     if ($time < $TIMESTAMP_START || $time > $TIMESTAMP_STOP) {
         // Time out of bounds
-        header("Location: /index.php?order=0");
+        header("Location: index.php?order=0");
         exit();
     } 
     if ($MAX_NUMBER_INGREDIENTS < count($ingredients)) {
         // To many ingredients
-        header("Location: /index.php?order=0");
+        header("Location: index.php?order=0");
         exit();
     }
     
     if (!checkOccupancy($time)) {
         // To many ingredients
-        header("Location: /index.php?order=0");
+        header("Location: index.php?order=0");
         exit();
     }
     
@@ -83,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $res = insertDB($name, $email, $ingredients, $time, $remark);
     if ($res) {
         sendMail($email, $time);
-        header("Location: /index.php?order=1");
+        header("Location: index.php?order=1");
         exit();
     }
-     header("Location: /index.php?order=0");
+     header("Location: index.php?order=0");
 }
 else {
-    header("Location: /index.php");
+    header("Location: index.php");
 }
 ?>
