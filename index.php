@@ -57,8 +57,8 @@ foreach ($occ_res as &$res) {
         }
         ?>
         <form action="order.php" method="post">
-            <input type="text" placeholder="Name" name="name" required><br>
-            <input type="email" placeholder="E-Mail" name="email" required><br>
+            <input type="text" placeholder="Name" name="name" maxlength=30 required><br>
+            <input type="email" placeholder="E-Mail" name="email" maxlength=100 required><br>
             <div class="list">
             <p>Base price: <?php echo $BASE_PRICE;?>€</p>
             <?php 
