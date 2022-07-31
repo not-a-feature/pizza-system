@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $remark = filter_input(INPUT_POST, 'remark', FILTER_SANITIZE_SPECIAL_CHARS);
     
     $time = floor($time/$SLOT_WIDTH)*$SLOT_WIDTH;
-    if ($time < $TIMESTAMP_START || $time > $TIMESTAMP_STOP) {
+    if ($time < $TIMESTAMP_START || $time > $TIMESTAMP_STOP-1) {
         // Time out of bounds
         header("Location: index.php?order=0");
         exit();

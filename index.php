@@ -89,7 +89,7 @@ foreach ($occ_res as &$res) {
 
             <input type="range"
                 min="<?php echo $TIMESTAMP_START;?>"
-                max="<?php echo $TIMESTAMP_STOP;?>"
+                max="<?php echo $TIMESTAMP_STOP-1;?>"
                 value="<?php echo ($TIMESTAMP_STOP - $TIMESTAMP_START)/2 + $TIMESTAMP_START;?>"
                 class="slider" name="pickup-time" id="pickup-time">
             <output for="pickup-time" id="time-bubble" class="bubble"></output><br>
