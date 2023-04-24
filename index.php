@@ -45,10 +45,11 @@ foreach ($occ_res as &$res) {
         Please visit us at <?php echo $LOCATION;?>. Your pizza will be freshly prepared when you arrive. Please bring cash to pay.
         <br><br><?php
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            if ($_GET["order"] == "1") {
+            $order = $_GET["order"] ?) "";
+            if ($order == "1") {
                 echo "<div class='icon success'>Your order was placed!</div><br>";
             }
-            else if ($_GET["order"] == "0"){
+            else if ($order == "0"){
                 echo "<div class='icon error'>Error while placing your order! Please contact: {$CONTACT_EMAIL}</div>";
             }
             if ($TIMESTAMP_LAST_ORDER < time()) {
