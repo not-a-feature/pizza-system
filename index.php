@@ -40,10 +40,11 @@ foreach ($occ_res as &$res) {
             <p class="icon marker"><?php echo $LOCATION;?></p>
             <p class="icon email"><?php echo $CONTACT_EMAIL; ?></p>
         </div>
-
+        <br>
         The basic pizza consists of a yeast dough and tomato sauce. Any additional ingredient / topping will be charged extra.
         Please visit us at <?php echo $LOCATION;?>. Your pizza will be freshly prepared when you arrive. Please bring cash to pay.
-        <br><br><?php
+        <br><br>
+        <?php
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $order = $_GET["order"] ?: "";
             if ($order == "1") {

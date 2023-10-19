@@ -44,7 +44,7 @@ $largest_ing_name = max(array_map('strlen', array_keys($ingredient_count)));
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/orderview.css">
     <title>Pizza-System</title>
     <script>
 function searchTable() {
@@ -97,7 +97,7 @@ function searchTable() {
         <h3>Orders by time</h3>
         <input type="text" id="search" placeholder="&nbsp;&nbsp;🔍&nbsp;&nbsp;Suchen" onkeyup="searchTable()">
         <div id="orderlist">
-<?php 
+<?php
 
     foreach ($orders as &$order) {
         $time = date('H:i', $order['time']);
