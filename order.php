@@ -19,7 +19,7 @@ function checkOccupancy($time) {
 
     global $CRED_SERV_NAME, $CRED_USER, $CRED_PWD, $CRED_DBNAME;
     global $BLOCK_OVERLAPPING_ORDERS, $SLOT_WIDTH, $PIZZA_TIME, $ADDITIONAL_TIME;
-   
+
     if (!$BLOCK_OVERLAPPING_ORDERS) {
         return TRUE;
     }
@@ -30,7 +30,7 @@ function checkOccupancy($time) {
     $result = $stmt->get_result();
     $occupancy = $result->fetch_all(MYSQLI_ASSOC)[0]["count"];
     $conn->close();
-    
+
     return ($PIZZA_TIME + $occupancy*$ADDITIONAL_TIME) <= $SLOT_WIDTH/60;
 }
 function sendMail($recipient, $time) {
@@ -47,38 +47,40 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // too late
         header("Location: index.php?order=0");
         exit();
-    } 
+    }
 
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $ingredients = "";
 
-    if (isset($_POST["ingredients"])) {
-        $ingredients = array_map('intval', $_POST["ingredients"]);
-        $ingredients = implode(',', $ingredients);
-    }
     $time = filter_input(INPUT_POST, 'pickup-time', FILTER_SANITIZE_NUMBER_INT);
     $time = intval($time);
     $remark = filter_input(INPUT_POST, 'remark', FILTER_SANITIZE_SPECIAL_CHARS);
-    
+
     $time = floor($time/$SLOT_WIDTH)*$SLOT_WIDTH;
     if ($time < $TIMESTAMP_START || $time > $TIMESTAMP_STOP-1) {
         // Time out of bounds
         header("Location: index.php?order=0");
         exit();
-    } 
-    if ($MAX_NUMBER_INGREDIENTS < count($ingredients)) {
-        // To many ingredients
-        header("Location: index.php?order=0");
-        exit();
     }
-    
+
     if (!checkOccupancy($time)) {
         // To many ingredients
         header("Location: index.php?order=0");
         exit();
     }
-    
+
+    if (isset($_POST["ingredients"])) {
+        $ingredients = array_map('intval', $_POST["ingredients"]);
+    }
+
+    if ($MAX_NUMBER_INGREDIENTS < count($ingredients)) {
+        // To many ingredients
+        header("Location: index.php?order=0");
+        exit();
+    }
+    $ingredients = implode(',', $ingredients);
+
 
     $res = insertDB($name, $email, $ingredients, $time, $remark);
     if ($res) {

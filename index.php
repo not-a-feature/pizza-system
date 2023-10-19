@@ -45,7 +45,7 @@ foreach ($occ_res as &$res) {
         Please visit us at <?php echo $LOCATION;?>. Your pizza will be freshly prepared when you arrive. Please bring cash to pay.
         <br><br><?php
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            $order = $_GET["order"] ?) "";
+            $order = $_GET["order"] ?: "";
             if ($order == "1") {
                 echo "<div class='icon success'>Your order was placed!</div><br>";
             }
@@ -62,7 +62,7 @@ foreach ($occ_res as &$res) {
             <input type="email" placeholder="E-Mail" name="email" maxlength=100 required><br>
             <div class="list">
             <p>Base price: <?php echo $BASE_PRICE;?>€</p>
-            <?php 
+            <?php
             foreach ($ingredients as &$ing) {
                 echo "<label>";
                 echo "<input type='checkbox' id='ingr-{$ing['uid']}' name='ingredients[]' value='{$ing['uid']}'>";
@@ -76,7 +76,7 @@ foreach ($occ_res as &$res) {
 
             <div class="time-container" style="grid-template-columns: repeat(<?php echo $SLOTS;?>, auto);">
                 <?php
-                for ($i=$TIMESTAMP_START; $i < $TIMESTAMP_STOP; $i=$i+$SLOT_WIDTH) { 
+                for ($i=$TIMESTAMP_START; $i < $TIMESTAMP_STOP; $i=$i+$SLOT_WIDTH) {
                     if (isset($occupancy[$i])) {
                         $h = $occupancy[$i]*$ADDITIONAL_TIME*4 + $PIZZA_TIME;
                     }
@@ -103,7 +103,7 @@ foreach ($occ_res as &$res) {
         </form>
         <script>
             // Pricelist dictionary
-            priceList = {<?php 
+            priceList = {<?php
             foreach ($ingredients as &$ing) {
                 echo "'ingr-{$ing['uid']}' : {$ing['price']}, ";
             }
@@ -170,7 +170,7 @@ foreach ($occ_res as &$res) {
                 // calculates the pickup and waiting time
                 // Updates time-bubble beneath the slider
                 // Dis-/Enables the order-button
-                
+
                 time = slider.valueAsNumber
                 bin_slot = Math.floor(time / slot_width) * slot_width;
                 if (bin_slot in occupancy) {
@@ -187,16 +187,16 @@ foreach ($occ_res as &$res) {
                 document.getElementById("time").innerHTML = "Pick-up time: " + human_time;
                 document.getElementById("wait").innerHTML = "Estimated waiting time: < "+
                     wait + " minutes";
-                
-                
+
+
                 // Dis-/Enables Order Button
                 if (block_overlapping_orders && slot_width/60 < wait) {
                     // Show too many orders warning, disable button
 
-                    // Edge Case:  Don't show warning if order was successful 
+                    // Edge Case:  Don't show warning if order was successful
                     if (first_run && window.location.search != "") {
                         overlapping_order.style.display = "none";
-                    } 
+                    }
                     else {
                         overlapping_order.style.display = "";
                     }
@@ -220,7 +220,7 @@ foreach ($occ_res as &$res) {
                 thumb_width = parseFloat(window.getComputedStyle(slider)
                                         .getPropertyValue("--thumbSize"));
 
-                // Relative offset of bubble 
+                // Relative offset of bubble
                 thumb_width_rel = thumb_width / slider_width * 100;
                 pos_factor = (slider_width - thumb_width) / slider_width;
                 position = (position + thumb_width_rel/2) * pos_factor;
